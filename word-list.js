@@ -1,8 +1,14 @@
-let wordArray = [];
-
-chrome.storage.sync.get('wordList', function (result) {
-    wordArray = result.wordList;
-});
+function retrieveData() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get('wordList', function (result) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                resolve(result.wordList);
+            }
+        });
+    });
+}
 
 function persistData(wordArray) {
     chrome.storage.sync.set({ "wordList": wordArray }).then(function (res) {
@@ -10,45 +16,47 @@ function persistData(wordArray) {
     });
 }
 
-function addDomain() {
-    var input = document.getElementById("input");
+async function addDomain() {
+    const input = document.getElementById("input");
     if (input.value !== "") {
+        let wordArray = await retrieveData();
         wordArray.push(input.value);
-        persistData(wordArray);
-
+        await persistData(wordArray);
         updateWordList();
     }
     input.value = '';
 }
 
-function removeDomain(index) {
-    if (index > -1) {
-        wordArray.splice(index, 1);
-        persistData(wordArray);
+async function removeDomain(index) {
+    let wordArray = await retrieveData();
 
+    if (index >= 0 && index < wordArray.length) {
+        wordArray.splice(index, 1);
+        await persistData(wordArray);
         updateWordList();
     }
 }
 
-function updateWordList() {
+async function updateWordList() {
     document.getElementById("word-list").innerHTML = "";
-    for (var i = 0; i < wordArray.length; i++) {
-        var domain = wordArray[i];
-
-        var entry = document.createElement("h4");
-        var text = document.createTextNode(domain + " ");
-        entry.appendChild(text);
-
-        var btn = document.createElement("BUTTON");
-        btn.setAttribute('index', i);
-        btn.textContent = "x";
-        btn.onclick = function (event) {
-            removeDomain(event.target.getAttribute("index"));
-        };
-
-        entry.appendChild(btn);
-
-        document.getElementById("word-list").appendChild(entry);
+    try {
+        const wordArray = await retrieveData();
+        for (var i = 0; i < wordArray.length; i++) {
+            var domain = wordArray[i];
+            var entry = document.createElement("h4");
+            var text = document.createTextNode(domain + " ");
+            entry.appendChild(text);
+            var btn = document.createElement("BUTTON");
+            btn.setAttribute('index', i);
+            btn.textContent = "x";
+            btn.onclick = function (event) {
+                removeDomain(event.target.getAttribute("index"));
+            };
+            entry.appendChild(btn);
+            document.getElementById("word-list").appendChild(entry);
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -60,7 +68,6 @@ document.querySelector("input").addEventListener("keyup", function (event) {
 
 document.getElementById("add-domain").addEventListener("click", addDomain);
 document.getElementById("refresh").addEventListener("click", updateWordList);
-
 document.addEventListener("DOMContentLoaded", function () {
     updateWordList();
 });

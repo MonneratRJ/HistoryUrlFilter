@@ -1,6 +1,6 @@
 {
   "name": "History URL Filter",
-  "version": "1.0",
+  "version": "1.1",
   "description": "This extension allows you to filter your browsing history removing ones containing a specific keyword.",
   "manifest_version": 3,
   "background": {
