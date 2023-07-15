@@ -1,0 +1,25 @@
+{
+  "name": "History URL Filter",
+  "version": "1.0",
+  "description": "This extension allows you to filter your browsing history removing ones containing a specific keyword.",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "history"
+  ],
+  "options_page": "options.html",
+  "author": {
+    "name": "Marcelo Monnerat",
+    "email": "m.monnerat@terra.com.br"
+  }
+}

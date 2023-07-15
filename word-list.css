@@ -1,0 +1,52 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    background-color: #ccc;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .header img {
+    width: 128px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+  }
+  
+  .header p {
+    font-size: 16px;
+    font-weight: lighter;
+  }
+    
+  .word-list {
+    font-size: 16px;
+    width: 100%;
+    max-width: 500px;
+    margin:10px auto 0;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #AAAAAA;
+    border-radius: 5px;
+  }
+
+  .word-list button {
+    background-color: #B08CFF;
+    border-radius: 10%;
+    border-color: #DEDEDE;
+    font-weight: bold;
+  }
+
+  form {
+    margin-top: 20px;
+  }
+
+  @media (max-width: 500px) {
+    .word-list {
+      width: 100%;
+    }
+  }
