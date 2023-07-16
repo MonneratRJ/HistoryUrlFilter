@@ -1,3 +1,21 @@
+function getManifest() {
+    return fetch("manifest.json")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch data");
+            }
+            return response.json();
+        });
+}
+
+async function setHeader() {
+    let jsonData = await getManifest();
+    console.log(jsonData);
+    document.getElementById("appName").textContent = jsonData.name;
+    document.getElementById("appVersion").textContent = "version " + jsonData.version;
+}
+
+
 function retrieveData() {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get('wordList', function (result) {
@@ -69,5 +87,6 @@ document.querySelector("input").addEventListener("keyup", function (event) {
 document.getElementById("add-domain").addEventListener("click", addDomain);
 document.getElementById("refresh").addEventListener("click", updateWordList);
 document.addEventListener("DOMContentLoaded", function () {
+    setHeader();
     updateWordList();
 });

@@ -22,7 +22,6 @@ async function searchForMatches() {
 
   if (wordArray) {
     wordArray.forEach(element => {
-      console.log(element);
       chrome.history.search({ text: element }).then(function (results) {
         for (let k in results) {
           let onDelete = chrome.history.deleteUrl({ url: results[k].url });
