@@ -10,7 +10,6 @@ function getManifest() {
 
 async function setHeader() {
     let jsonData = await getManifest();
-    console.log(jsonData);
     document.getElementById("appName").textContent = jsonData.name;
     document.getElementById("appVersion").textContent = "version " + jsonData.version;
 }
@@ -74,7 +73,7 @@ async function updateWordList() {
             document.getElementById("word-list").appendChild(entry);
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 

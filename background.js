@@ -26,8 +26,7 @@ async function cleanHistory() {
       // Basic history cleaning
       chrome.history.search({ text: element }).then(function (results) {
         for (let k in results) {
-          let onDelete = chrome.history.deleteUrl({ url: results[k].url });
-          onDelete.then(() => console.log('ok'));
+          chrome.history.deleteUrl({ url: results[k].url });
         }
       });
     });
