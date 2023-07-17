@@ -32,6 +32,6 @@ async function searchForMatches() {
   }
 }
 
-chrome.tabs.onUpdated.addListener(() => {
+chrome.history.onVisited.addListener(() => {
   searchForMatches();
 });
