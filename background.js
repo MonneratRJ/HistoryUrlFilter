@@ -33,22 +33,17 @@ async function cleanHistory() {
   }
 }
 
-async function checkForOccurrences(url) {
-  let wordArray;
-
-  try {
-    wordArray = await retrieveData();
-  } catch (error) {
-    // Exit the function if there was an error
-    console.error(error);
-    return;
-  }
-
+function checkForOccurrences(url, wordArray) {
   return wordArray.some(word => url.includes(word));
 }
 
-chrome.webNavigation.onCommitted.addListener(async function (details) {
-  if (details.url && await checkForOccurrences(details.url)) {
-    cleanHistory();
+chrome.webNavigation.onCompleted.addListener(async function (details) {
+  let wordArray = await retrieveData();
+  if (wordArray === undefined) {
+    chrome.storage.sync.set({ "wordList": [] });
+  } else {
+    if (details.url && checkForOccurrences(details.url, wordArray)) {
+      cleanHistory();
+    }
   }
 });
