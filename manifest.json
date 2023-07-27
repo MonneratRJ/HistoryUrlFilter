@@ -15,7 +15,7 @@
   "permissions": [
     "storage",
     "history",
-    "webNavigation"
+    "tabs"
   ],
   "options_page": "options.html",
   "author": {

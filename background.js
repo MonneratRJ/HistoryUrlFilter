@@ -37,12 +37,13 @@ function checkForOccurrences(url, wordArray) {
   return wordArray.some(word => url.includes(word));
 }
 
-chrome.webNavigation.onCompleted.addListener(async function (details) {
+chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
+  console.log(JSON.stringify(tab));
   let wordArray = await retrieveData();
   if (wordArray === undefined) {
     chrome.storage.sync.set({ "wordList": [] });
   } else {
-    if (details.url && checkForOccurrences(details.url, wordArray)) {
+    if (tab.url && wordArray.some(word => tab.url.includes(word))) {
       cleanHistory();
     }
   }
