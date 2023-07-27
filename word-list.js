@@ -56,6 +56,7 @@ async function removeDomain(index) {
 
 async function updateWordList() {
     document.getElementById("word-list").innerHTML = "";
+    document.getElementById("input").value = "";
     try {
         const wordArray = await retrieveData();
         for (var i = 0; i < wordArray.length; i++) {
